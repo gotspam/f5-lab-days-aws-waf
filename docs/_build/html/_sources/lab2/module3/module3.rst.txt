@@ -25,7 +25,7 @@ Setting up Hackazon Virtual Server
 
 #. Select the **HTTP health monitor** and move it to **Active**
 
-#. Put in the following two IP addresses into the list of pool members both on port 80:  **18.205.1.169**, and **34.239.240.82**
+#. Put in the following two IP addresses into the list of pool members both on port 80:  **52.73.21.161**, and **54.158.245.60**
 
    .. image:: ../images/image204.png
       :height: 400px
