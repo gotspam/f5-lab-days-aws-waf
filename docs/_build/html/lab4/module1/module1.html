@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>5.1. Module4 – This is module 4a &#8212; Security in AWS  documentation</title>
+    <title>5.1. Deploy Super-NetOps host &#8212; Security in AWS  documentation</title>
     
     <link rel="stylesheet" href="../../_static/css/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -28,8 +28,8 @@
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="5.2. Module4 – This is module 4b" href="module2.html" />
-    <link rel="prev" title="5. Lab4 - Automating WAF deployment with Ansible" href="../lab4.html" />
+    <link rel="next" title="5.2. Deploy Hackazon App using F5 Declarative AS3 Template" href="module2.html" />
+    <link rel="prev" title="5. Automating WAF deployment with Ansible" href="../lab4.html" />
 <!--
 # Copyright 2017 F5 Networks
 #
@@ -212,22 +212,22 @@
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../intro.html">1. Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../lab1/lab1.html">2. lab1 - Securing BIG-IP in AWS</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../lab2/lab2.html">3. Lab2- Securing App with SSL</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../lab3/lab3.html">4. Lab3 - Securing App with WAF Policy</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../lab4.html">5. Lab4 - Automating WAF deployment with Ansible</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">5.1. Module4 – This is module 4a</a></li>
-<li class="toctree-l2"><a class="reference internal" href="module2.html">5.2. Module4 – This is module 4b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lab1/lab1.html">2. Securing BIG-IP in AWS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lab2/lab2.html">3. Securing App with SSL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lab3/lab3.html">4. Securing App with WAF Policy</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../lab4.html">5. Automating WAF deployment with Ansible</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">5.1. Deploy Super-NetOps host</a></li>
+<li class="toctree-l2"><a class="reference internal" href="module2.html">5.2. Deploy Hackazon App using F5 Declarative AS3 Template</a></li>
 </ul>
 </li>
 </ul>
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="../lab4.html"
-                        title="previous chapter">5. Lab4 - Automating WAF deployment with Ansible</a></p>
+                        title="previous chapter">5. Automating WAF deployment with Ansible</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="module2.html"
-                        title="next chapter">5.2. Module4 – This is module 4b</a></p>
+                        title="next chapter">5.2. Deploy Hackazon App using F5 Declarative AS3 Template</a></p>
         
       </div>
       <div class="col-md-offset-3 col-sm-offset-3 main">
@@ -236,8 +236,106 @@
           <span class="right"><a href="../../genindex.html">Index</a></span>
         </h4>
         
-  <div class="section" id="module4-this-is-module-4a">
-<h1>5.1. Module4 – This is module 4a<a class="headerlink" href="#module4-this-is-module-4a" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="deploy-super-netops-host">
+<h1>5.1. Deploy Super-NetOps host<a class="headerlink" href="#deploy-super-netops-host" title="Permalink to this headline">¶</a></h1>
+<p><strong>Launch new EC2 resource.</strong></p>
+<ol class="arabic">
+<li><p class="first">In the AWS Management Console, navigate to EC2 and click <strong>Launch Instance</strong>.</p>
+</li>
+<li><p class="first">Select <strong>Amazon Linux AMI 2018.03.0 (HVM), SSD Volume Type - ami-cfe4b2b0</strong>.</p>
+<a class="reference internal image-reference" href="../../_images/image410.png"><img alt="../../_images/image410.png" src="../../_images/image410.png" style="height: 200px;" /></a>
+</li>
+<li><p class="first">For <em>Instance Size*</em> select <span class="guilabel">t2.micro</span> then click <strong>Next: Configure Instance Details</strong></p>
+</li>
+<li><p class="first">For the <strong>Network</strong> select your <span class="guilabel">Student#-VPC-CFT</span></p>
+</li>
+<li><p class="first">For the <strong>Subnet</strong> select your <span class="guilabel">Student#-VPC-CFT-MgmtSubnet</span></p>
+</li>
+<li><p class="first">For <strong>Auto-assign Public IP</strong> select <span class="guilabel">Enable</span></p>
+</li>
+<li><p class="first">Expand <strong>Advanced Details</strong> on bottom of page and paste the following code into <strong>User Data</strong> box.</p>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="n">yum</span> <span class="n">update</span> <span class="o">-</span><span class="n">y</span>
+<span class="n">yum</span> <span class="n">install</span> <span class="o">-</span><span class="n">y</span> <span class="n">docker</span>
+<span class="n">yum</span> <span class="n">install</span> <span class="o">-</span><span class="n">y</span> <span class="n">telnet</span>
+<span class="n">yum</span> <span class="n">install</span> <span class="o">-</span><span class="n">y</span> <span class="n">curl</span>
+<span class="n">yum</span> <span class="n">install</span> <span class="o">-</span><span class="n">y</span> <span class="n">ab</span>
+<span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">chkconfig</span> <span class="o">--</span><span class="n">add</span> <span class="n">docker</span>
+<span class="n">service</span> <span class="n">docker</span> <span class="n">start</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Click <strong>Next: Add Storage</strong></p>
+</li>
+<li><p class="first">Click <strong>Next: Add Tags</strong></p>
+</li>
+<li><p class="first">Click <strong>Next: Configure Security Group</strong></p>
+</li>
+<li><p class="first">Select <strong>Existing Security</strong> and find your <span class="guilabel">Student#-VPC-CFT-bigipManagement</span></p>
+</li>
+<li><p class="first">Click <strong>Review and Launch</strong></p>
+</li>
+<li><p class="first">Click <strong>Launch</strong></p>
+</li>
+<li><p class="first">For <strong>SSH Key</strong> utilize the <span class="guilabel">Student#-BIG-IP</span> key</p>
+</li>
+<li><p class="first">Check the <strong>I acknowledge that AWS CloudFormation might create IAM resources</strong> box and click <strong>Launch Instances</strong>.</p>
+</li>
+</ol>
+<p><strong>Launch F5 Super-NetOps docker instance</strong></p>
+<ol class="arabic simple">
+<li>View Instances and filter for your <strong>Student#</strong> to see your <strong>unamed instance</strong>.</li>
+<li>Connect to Super-NetOps host using ssh utility. For example; ssh -i “Student#-BIG-IP.pem” ec2-user&#64;&lt;Super-NetOps_IP&gt;</li>
+<li>Type <span class="guilabel">sudo docker run -it f5usecases/f5-rs-container:latest</span></li>
+<li>Type <span class="guilabel">git clone https://github.com/gotspam/as3-examples.git</span></li>
+<li>Type <span class="guilabel">cd as3-examples</span></li>
+</ol>
+<p><strong>Modify ansible files for your environment</strong></p>
+<ol class="arabic">
+<li><p class="first">Type <span class="guilabel">vim inventory/hosts</span> and change ipaddress to your <strong>BIG-IP Private IP Address (eth0)</strong>.  This is the BIG-IP Management IP and is typically the first <strong>Private IP</strong> listed or by clicking on <strong>eth0</strong>.</p>
+<a class="reference internal image-reference" href="../../_images/image415.png"><img alt="../../_images/image415.png" src="../../_images/image415.png" style="height: 50px;" /></a>
+</li>
+<li><p class="first">Type <span class="guilabel">vim roles/hackazon/files/hackazon.json</span> and change ipaddress to your <strong>BIG-IP Private IP Address</strong> of the <strong>Elastic IP</strong> found in Lab2.</p>
+<a class="reference internal image-reference" href="../../_images/image416.png"><img alt="../../_images/image416.png" src="../../_images/image416.png" style="height: 400px;" /></a>
+</li>
+</ol>
+<p><strong>Test Super-NetOps communication with BIG-IP</strong></p>
+<p>You will now need to setup security permissions on AWS EC2 console so that Super-NetOps can communicate with your BIG-IP.</p>
+<ol class="arabic">
+<li><p class="first">In the <strong>AWS EC2</strong> console go to <strong>Network Interfaces</strong> and Filter by your <strong>Student#</strong>.</p>
+</li>
+<li><p class="first">Select the Interface with the description labeled <strong>Primary network interface</strong>.</p>
+</li>
+<li><p class="first">In the bottom area look for the**Primary private IPv4 IP:**</p>
+</li>
+<li><p class="first">Now select <strong>Security Groups</strong> on the left hand side.</p>
+</li>
+<li><p class="first">Filter by your <strong>Student#</strong> and then select the <strong>BIG-IP Management</strong> instance.</p>
+</li>
+<li><p class="first">Click the <strong>Inbound</strong> tab at the bottom and then select <strong>Edit</strong>.</p>
+</li>
+<li><p class="first">Click on <strong>Add Rule</strong>.</p>
+</li>
+<li><p class="first">Select <strong>SSH</strong> and then put the IP you found earlier in the source with a /32.</p>
+</li>
+<li><p class="first">Click on <strong>Add Rule</strong> again.</p>
+</li>
+<li><p class="first">Select <strong>HTTPS</strong> and then put the IP you found earlier in the source with a /32.</p>
+</li>
+<li><p class="first">Click on <strong>Save</strong>.</p>
+</li>
+<li><p class="first">Go back to your SSH session on the <strong>Super-NetOps</strong> host.</p>
+</li>
+<li><p class="first">Ensure your <strong>Super-NetOps</strong> host can communicate with your <strong>BIG-IP Management</strong> instance.</p>
+<ul class="simple">
+<li>Type <span class="guilabel">ssh admin&#64;&lt;BIG-IP Private IP Address (eth0)&gt;</span>.</li>
+<li>After successfully logging in, type <span class="guilabel">quit</span> to disconnect ssh session.</li>
+<li>Type <span class="guilabel">ansible-playbook playbooks/cmd.yaml</span>.</li>
+<li>Enter <strong>BIG-IP Username</strong> and <strong>Password</strong> when prompted.</li>
+</ul>
+<a class="reference internal image-reference" href="../../_images/image417.png"><img alt="../../_images/image417.png" src="../../_images/image417.png" style="height: 400px;" /></a>
+</li>
+</ol>
 </div>
 
 
@@ -245,10 +343,10 @@
 		     <div class="row next-prev-btn-row">
            <div class="col-lg-12">
            
-		        <a href="../lab4.html" title="5. Lab4 - Automating WAF deployment with Ansible" accesskey="p" class="btn btn-primary pull-left"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Previous</a>
+		        <a href="../lab4.html" title="5. Automating WAF deployment with Ansible" accesskey="p" class="btn btn-primary pull-left"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Previous</a>
            
            
-              <a href="module2.html" title="5.2. Module4 – This is module 4b" accesskey="n" class="btn btn-primary pull-right">Next <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
+              <a href="module2.html" title="5.2. Deploy Hackazon App using F5 Declarative AS3 Template" accesskey="n" class="btn btn-primary pull-right">Next <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
            
 		     </div>
          </div>
