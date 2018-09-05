@@ -1,0 +1,12 @@
+Lab – Configure WAF Security Policies
+=====================================
+
+
+In this lab you will learn how to configure a baseline web security policy to
+mitigate L7 attacks.
+
+.. toctree::
+   :maxdepth: 1
+   :glob:
+
+   module*

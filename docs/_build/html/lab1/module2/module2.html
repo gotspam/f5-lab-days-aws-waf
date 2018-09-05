@@ -1,0 +1,450 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>2.3. Deploy the BIG-IP &#8212; Security in AWS  documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/css/f5_agility_theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/css/f5.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="3. Securing App with SSL" href="../../lab2/lab2.html" />
+    <link rel="prev" title="2.1. Create AWS VPC and Networking" href="../module1/module1.html" />
+<!--
+# Copyright 2017 F5 Networks
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+-->
+<link href="https://cdn.f5.com/favicon.ico" rel="icon">
+<script src="https://use.fontawesome.com/21fb8a09c3.js"></script>
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+  </head>
+  <body>
+  <nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="row corp-header">
+      <div class="container corp-header">
+        <div class="container corp-menu">
+          <ul>
+            <li><a href="https://f5.com" class="internalLink">F5.com</a></li>
+            <li><a href="https://support.f5.com">Support</a></li>
+            <li><a href="https://devcentral.f5.com">Community</a></li>
+            <li><a href="https://github.com/F5Networks">GitHub</a></li>
+            <li><a href="https://f5.com/about-us/careers">Careers</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="row pageHeader">
+      <div class="container stat">
+        <div class="col-xs-12 stat">
+          <a class="internalLink" href="https://f5.com">
+            <img class="logo" src="https://cdn.f5.com/websites/support/assets/images/logo.svg" width="50" height="44" alt="F5 Networks" title="F5 Networks" border="0">
+          </a>
+            <ul id="MainMenu" class="main-menu">
+              <li>
+                <a href="#">Products
+                  <span class="indicator"><span class="arrow-up"></span></span>
+                </a>
+
+                <div class="menu-panel soft-hide" id="ProductsSubmenu">
+                  <div class="container">
+                    <ul class="submenu col-sm-11">
+                      <li class="third"><span class="a-mm-h">Connectors</span>
+                        <ul>
+                          <li><a href="http://clouddocs.f5.com/products/connectors/marathon-bigip-ctlr/latest" data-link-type="Nav: Mega">F5 Marathon BIG-IP Controller</a></li>
+                          <li><a href="http://clouddocs.f5.com/products/connectors/marathon-asp-ctlr/latest" data-link-type="Nav: Mega">F5 Marathon ASP Controller</a></li>
+                          <li><a href="http://clouddocs.f5.com/products/connectors/k8s-bigip-ctlr/latest" data-link-type="Nav: Mega">F5 Kubernetes BIG-IP Controller</a></li>
+                          <li><a href="http://clouddocs.f5.com/products/connectors/f5-kube-proxy/latest" data-link-type="Nav: Mega">F5 Kubernetes Proxy</a></li>
+                        </ul>
+                        <!--span class="seemore"><a data-link-type="Nav: Mega" href="/products/connectors">See all </a></--span-->
+                      </li>
+                      <li class="divider"></li>
+                      <li class="third"><span class="a-mm-h">Application Service Proxy</span>
+                        <ul>
+                          <li><a href="http://clouddocs.f5.com/products/asp/latest" data-link-type="Nav: Mega">F5 Application Service Proxy</a></li>
+                        </ul>
+                        <!--span class="seemore"><a href="/products/">See all </a></span-->
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <a href="#">Container Integrations
+                  <span class="indicator"><span class="arrow-up"></span></span>
+                </a>
+
+                <div class="menu-panel soft-hide" id="ContainersSubmenu">
+                  <div class="container">
+                    <ul class="submenu col-sm-11">
+                      <li class="third"><span class="a-mm-h">Container Integrations</span>
+                        <ul>
+                          <li><a href="http://clouddocs.f5.com/containers/latest/marathon/" data-link-type="Nav: Mega">Mesos Marathon</a></li>
+                          <li><a href="http://clouddocs.f5.com/containers/latest/kubernetes/" data-link-type="Nav: Mega">Kubernetes</a></li>
+                          <li><a href="http://clouddocs.f5.com/containers/latest/openshift/" data-link-type="Nav: Mega">RedHat OpenShift</a></li>
+                        </ul>
+                        <span class="seemore"><a data-link-type="Nav: Mega" href="http://clouddocs.f5.com/containers/latest">View details </a></span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <a href="#">Clouds
+                  <span class="indicator"><span class="arrow-up"></span></span>
+                </a>
+
+                <div class="menu-panel soft-hide" id="CloudsSubmenu">
+                  <div class="container">
+                    <ul class="submenu col-sm-11">
+                      <li class="third"><span class="a-mm-h">Cloud Integrations</span>
+                        <ul>
+                          <li><a href="http://clouddocs.f5.com/cloud/openstack/" data-link-type="Nav: Mega">OpenStack</a></li>
+                        </ul>
+                        <!--span class="seemore"><a data-link-type="Nav: Mega" href="/cloud/">See all </a></span-->
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <a href="#">Resources
+                  <span class="indicator"><span class="arrow-up"></span></span>
+                </a>
+                <div class="menu-panel soft-hide" id="UPCProgramSubmenu">
+                  <div class="container">
+                    <ul class="submenu col-sm-11">
+                      <li class="third">
+                        <span class="a-mm-h">Downloads</span>
+                        <ul>
+                          <li><a target="_blank" data-link-type="Nav: Mega" href="https://hub.docker.com/r/f5networks/" class="internalLink">Docker Hub</a></li>
+                          <li><a target="_blank" data-link-type="Nav: Mega" href="https://store.docker.com/images/f5networks" class="internalLink">Docker Store</a></li>
+                        </ul>
+                      </li>
+                      <li class="divider"></li>
+
+                      <li class="third">
+                        <span class="a-mm-h">OpenSource</span>
+                        <ul>
+                          <li><a target="_blank" data-link-type="Nav: Mega" href="https://github.com/F5Networks" class="internalLink">GitHub</a></li>
+                        </ul>
+                      </li>
+                      <li class="divider"></li>
+
+                      <li class="third">
+                        <a href="//university.f5.com" class="a-mm-h internalLink" target="_blank" data-link-type="Nav: Mega">F5 University</a>
+                        <ul>
+                          <li>
+                            <p>Get up to speed with free self-paced courses</p>
+                          </li>
+                        </ul>
+                        <a data-ng-href="https://devcentral.f5.com" class="a-mm-h internalLink" target="_blank" data-link-type="Nav: Mega" href="https://devcentral.f5.com">DevCentral</a>
+                        <ul>
+                          <li>
+                            <p>Join the community of 250,000+ technical peers</p>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+            </ul>
+        </div>
+      </div>
+    </div>
+  </div> <!-- /container-fluid -->
+</nav>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-3 col-md-3 sidebar">
+         <h4><a href="../../">Security in AWS </a></h4>
+<div id="searchbox" style="display: none" role="search">
+  <form class="search" action="../../search.html" method="get">
+    <div>
+      <input type="text" name="q" placeholder="Search" style="padding-left: 6px;"/>
+      <!-- <input type="submit" value="Go" style="margin-top: 4px;"/> -->
+      <button type="submit" class="btn btn-primary btn-xs">Go</button>
+    </div>
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <p class="caption">
+   <span class="caption-text">Current Page</span>
+  </p>
+  <ul>
+<li><a class="reference internal" href="#">2.3. Deploy the BIG-IP</a><ul>
+<li><a class="reference internal" href="#launch-big-ip-into-existing-vpc">2.3.1. Launch BIG-IP into existing VPC</a></li>
+<li><a class="reference internal" href="#set-the-admin-password-for-big-ip-ve">2.3.2. Set the admin password for BIG-IP VE</a></li>
+</ul>
+</li>
+</ul>
+
+
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">1. Getting Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../lab1.html">2. Securing BIG-IP in AWS</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../module1/module1.html">2.1. Create AWS VPC and Networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../module1/module1.html#environment">2.2. Environment</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">2.3. Deploy the BIG-IP</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../lab2/lab2.html">3. Securing App with SSL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lab3/lab3.html">4. Securing App with WAF Policy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lab4/lab4.html">5. Automating WAF deployment with Ansible</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../module1/module1.html"
+                        title="previous chapter">2.1. Create AWS VPC and Networking</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../../lab2/lab2.html"
+                        title="next chapter">3. Securing App with SSL</a></p>
+        
+      </div>
+      <div class="col-md-offset-3 col-sm-offset-3 main">
+        <h4>
+          <a href="/">Community Training Classes &amp; Labs</a> &gt; <a href="../../index.html">Security in AWS</a>
+          <span class="right"><a href="../../genindex.html">Index</a></span>
+        </h4>
+        
+  <div class="section" id="deploy-the-big-ip">
+<h1>2.3. Deploy the BIG-IP<a class="headerlink" href="#deploy-the-big-ip" title="Permalink to this headline">¶</a></h1>
+<p>In Module 2 we will deploy the BIG-IP into the AWS VPC created in Module 1.</p>
+<p>F5 publishes CFTs on a regular basis to Github.</p>
+<div class="section" id="launch-big-ip-into-existing-vpc">
+<h2>2.3.1. Launch BIG-IP into existing VPC<a class="headerlink" href="#launch-big-ip-into-existing-vpc" title="Permalink to this headline">¶</a></h2>
+<p>We will use the instructor provided CFT to launch a BIG-IP into the VPC that already exists.</p>
+<p>First, we need to create and save a key pair.</p>
+<ol class="arabic simple">
+<li>In the AWS Management Console, navigate to <strong>EC2</strong> and then under <strong>Network &amp; Security</strong> to <strong>Key Pairs</strong></li>
+<li>Click <strong>Create Key Pair</strong> and name it <span class="guilabel">Student#-BIG-IP</span>.</li>
+<li>Click <strong>Create</strong> and it will download the <span class="guilabel">Student#-BIG-IP.pem</span> file to your local machine. Be sure to keep track of this file as you will need it to access the BIG-IP later.</li>
+<li>You will need to change the permissions of the <span class="guilabel">Student#-BIG-IP.pem</span> key pair. On a MAC, open a terminal and go to the folder you saved the <span class="guilabel">Student#-BIG-IP.pem</span> key pair. To change the file permissions type:</li>
+</ol>
+<blockquote>
+<div><span class="guilabel">chmod 400 Student#-BIG-IP.pem</span></div></blockquote>
+<p>Next, we’re ready to deploy the CFT.</p>
+<ol class="arabic simple">
+<li>Go to: <a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?templateURL=https:%2F%2Fs3-external-1.amazonaws.com%2Fcf-templates-k2dflj3mk02p-us-east-1%2F2018201LuF-template191z9ht7gde7&redirectId=DesignTemplate" target="_blank">F5 Advanced WAF Cloud Formation Template</a></li>
+<li>At the <strong>Select Template</strong> page, ensure you are still in the same region where you created your VPC, note the template URL is already selected, and click <strong>Next</strong>.</li>
+<li>For <strong>Stack name</strong> enter a value of <span class="guilabel">Student#-BIG-IP-CFT</span>.</li>
+<li>In the <strong>VPC</strong> in the drop down, find your <span class="guilabel">Student#-VPC-CFT</span> (you may have to scroll down the list).</li>
+<li>For the <strong>Management Subnet AZ1</strong> select <span class="guilabel">Student#-VPC-CFT-MgmtSubnet</span>.</li>
+<li>Similarly, for <strong>Subnet1</strong> and <strong>Subnet2</strong> assign the <span class="guilabel">Student#-VPC-CFT-External Subnet</span> and <span class="guilabel">Student#-VPC-CFT-Internal Subnet</span> subnets from the drop down.</li>
+<li>Ensure the <strong>BIG-IP Image Name</strong> is set to <span class="guilabel">AWAF25Mbps</span>.</li>
+<li>Ensure the <strong>AWS Instance Size</strong> is set to <span class="guilabel">t2.large</span>.</li>
+<li>For the <strong>SSH Key</strong> utilize the <span class="guilabel">Student#-BIG-IP</span> key in the drop down.</li>
+<li>In the <strong>Source Address(es) for Management Access</strong>, enter <span class="guilabel">64.251.121.0/24</span>.</li>
+<li>in the <strong>Source Address(es) for Web Application Access (80/443)</strong> field, enter <span class="guilabel">0.0.0.0/0</span>.</li>
+<li>Leave all other fields at default values and select <strong>Next</strong>.</li>
+<li>Leave all fields in the <strong>Options</strong> page at defaults and select <strong>Next</strong>.</li>
+<li>Review the settings, check the <strong>I acknowledge that AWS CloudFormation might create IAM resources</strong> box and click <strong>Create</strong>.</li>
+<li>Refresh the page to see the status of the deployment.</li>
+<li>Wait until the status of the CFT shows <span class="guilabel">CREATE_COMPLETE</span>.</li>
+</ol>
+</div>
+<div class="section" id="set-the-admin-password-for-big-ip-ve">
+<h2>2.3.2. Set the admin password for BIG-IP VE<a class="headerlink" href="#set-the-admin-password-for-big-ip-ve" title="Permalink to this headline">¶</a></h2>
+<p>To initially change the password for the BIG-IP management utility we need to connect via SSH and then modify the admin password.</p>
+<ol class="arabic simple">
+<li>Navigate to <strong>EC2 -&gt; Network Interfaces</strong> and filter for <span class="guilabel">Student#-BIG-IP</span>. Find <strong>Management</strong> interface of your BIG-IP instance . Note the <strong>IPv4 Public IP</strong> address for the <strong>Management</strong> interface.</li>
+</ol>
+<div class="figure">
+<img alt="../../_images/mgmt-public-ip.png" src="../../_images/mgmt-public-ip.png" />
+</div>
+<ol class="arabic">
+<li><p class="first">You can connect using an SSH utility - make sure to use <span class="guilabel">admin</span> as the username (do not use <code class="docutils literal"><span class="pre">root</span></code>) and the <strong>Management IPv4 Public IP</strong> from the previous step. Use the <strong>Student#-BIG-IP.pem</strong> key pair you saved when you created the instance in Lab 1. For example:</p>
+<blockquote>
+<div><p><span class="guilabel">ssh -i Student#.pem admin&#64;&lt;IPv4-Public-IP&gt;</span></p>
+</div></blockquote>
+</li>
+<li><p class="first">After connecting via SSH issue the command <span class="guilabel">modify auth password admin</span> - change the admin password to one that you will remember</p>
+</li>
+<li><p class="first">Save the password change by issuing the command <span class="guilabel">save sys config</span></p>
+</li>
+<li><p class="first">You can now connect to the BIG-IP Web UI on HTTPS using the <strong>IPv4 Public IP</strong> for the <strong>Management</strong> interface (bypass the self-signed cert warning) and use the credentials <span class="guilabel">admin/&lt;password-from-step-4&gt;</span></p>
+</li>
+<li><p class="first">Once logged in to the F5 management console click on <strong>System -&gt; Resource Provisioning</strong>.</p>
+</li>
+<li><p class="first">Select <span class="guilabel">ASM</span>, <span class="guilabel">Fraud Protection Service</span>, and <span class="guilabel">iRules Language Extensions (iRulesLX)</span>.</p>
+</li>
+<li><p class="first">Unselect <span class="guilabel">LTM</span></p>
+</li>
+<li><p class="first">Click on <strong>Submit</strong> and then <strong>OK</strong>.  The admin console will be inaccessible for a couple minutes as the new options are enabled.</p>
+</li>
+</ol>
+</div>
+</div>
+
+
+        
+		     <div class="row next-prev-btn-row">
+           <div class="col-lg-12">
+           
+		        <a href="../module1/module1.html" title="2.1. Create AWS VPC and Networking" accesskey="p" class="btn btn-primary pull-left"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Previous</a>
+           
+           
+              <a href="../../lab2/lab2.html" title="3. Securing App with SSL" accesskey="n" class="btn btn-primary pull-right">Next <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
+           
+		     </div>
+         </div>
+        
+      </div>
+    </div>
+  </div>
+
+
+  <footer>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="content-fluid pre-footer">
+            <div class="blocks-container">
+              <div class="block">
+                <h3>Support Programs</h3>
+                <p>Regionally located support centers enable F5 to provide support in a number of languages through native-speaking support engineers.</p>
+                <a class="btn internalLink" data-ng-href="https://f5.com/support/support-offerings" target="_blank" href="https://f5.com/support/support-offerings">See more
+                  <span class="icon-1x-right icon-new-window" data-icon="new-window">​</span>
+                </a>
+              </div>
+              <div class="block">
+                <h3>Contact Support</h3>
+                <p>
+                  North America: 1-888-882-7535<br>
+                  Outside North America: 800-11-275-435
+                </p>
+                <a class="btn internalLink" data-ng-href="https://f5.com/about-us/contact#regional-support" target="_blank" href="https://f5.com/about-us/contact#regional-support">Local Support Numbers
+                  <span class="icon-1x-right icon-new-window" data-icon="new-window">​</span>
+                </a>
+              </div>
+              <div class="block">
+                <h3>Feedback and Help</h3>
+                <p>Have questions, suggestions, or just want to get something off your chest? Let us know.</p>
+                <a class="btn" data-ui-sref="siteFeedback" target="_blank" href="https://support.f5.com/csp/siteFeedback">Leave feedback</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="footer">
+            <div class="container">
+              <div class="col-sm-3 col-md-2">
+                <h4>About F5</h4>
+                <ul>
+                  <li><a data-ng-href="https://f5.com/about-us/contact" target="_blank" data-link-type="footer" href="https://f5.com/about-us/contact" class="internalLink">Contact F5</a>
+                  </li>
+                  <li><a data-ng-href="https://f5.com/about-us/careers" target="_blank" data-link-type="footer" href="https://f5.com/about-us/careers" class="internalLink">Careers</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-sm-3 col-md-2">
+                <h4>Education</h4>
+                <ul>
+                  <li><a data-ng-href="https://f5.com/education/training" target="_blank" data-link-type="footer" href="https://f5.com/education/training" class="internalLink">Training</a>
+                  </li>
+                  <li><a data-ng-href="https://f5.com/education/certification" target="_blank" data-link-type="footer" href="https://f5.com/education/certification" class="internalLink">Certification</a>
+                  </li>
+                  <li><a data-ng-href="https://f5.com/education/training/free-courses" target="_blank" data-link-type="footer" href="https://f5.com/education/training/free-courses" class="internalLink">Free Online Training</a>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="col-sm-3 col-md-2">
+                <h4>F5 sites</h4>
+                <ul>
+                <li><a data-ng-href="https://f5.com" target="_blank" data-link-type="footer" href="https://f5.com" class="internalLink">F5.com</a>
+                </li>
+                <li><a data-ng-href="https://devcentral.f5.com" target="_blank" data-link-type="footer" href="https://devcentral.f5.com" class="internalLink">Community</a>
+                </li>
+                <li><a data-ng-href="https://partners.f5.com" target="_blank" data-link-type="footer" href="https://partners.f5.com" class="internalLink">Partners</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-sm-3 col-md-2">
+            <h4>Support Tasks</h4>
+            <ul>
+                <li><a data-ui-sref="mySupport.createServiceRequest" data-link-type="footer" href="https://support.f5.com/csp/my-support/service-request">Create Service Request </a>
+                </li>
+                <li><a data-ng-href="https://f5.com/about-us/contact#regional-support" target="_blank" data-link-type="footer" href="https://f5.com/about-us/contact#regional-support" class="internalLink">Contact Support</a>
+                </li>
+                <li><a data-ui-sref="siteFeedback" target="_blank" data-link-type="footer" href="https://support.f5.com/csp/siteFeedback">Leave feedback [+]</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-xs-12 col-md-3 right">
+            <h4>Connect with us</h4>
+            <ul class="social_icons">
+                <li><a href="//twitter.com/f5networks" target="_blank" data-name="twitter" data-type="" data-prefix="social" data-utf="E032" title="Twitter" class="externalLink"><i class="icon-1x icon-twitter icon-inverse-circle" data-link-type="footer"></i></a></li>
+                <li><a href="//www.linkedin.com/companies/f5-networks" target="_blank" class="linkedin externalLink" title="LinkedIn"><i class="icon-1x icon-linkedin icon-inverse-circle" data-link-type="footer"></i></a></li>
+                <li><a href="//www.facebook.com/f5networksinc" target="_blank" class="facebook externalLink" title="Facebook"><i class="icon-1x icon-facebook icon-inverse-circle" data-link-type="footer"></i></a></li>
+                <li><a href="//www.youtube.com/f5networksinc" target="_blank" class="youtube externalLink" title="YouTube"><i class="icon-1x icon-youtube icon-inverse-circle" data-link-type="footer"></i></a></li>
+                <li><a data-ng-href="https://devcentral.f5.com" target="_blank" class="devcentral internalLink" title="DevCentral" href="https://devcentral.f5.com"><i class="icon-1x icon-dc-pos icon-inverse-circle" data-link-type="footer"></i></a></li>
+            </ul>
+        </div>
+
+        <div class="content-fluid left">
+            <div class="col-xs-12">
+                <p>
+                    © Copyright <span class="ng-binding">2017</span> by F5 Networks, Inc. |
+                    <a data-ng-href="https://f5.com/about-us/policies" target="_blank" data-link-type="footer" href="https://f5.com/about-us/policies" class="internalLink">Policies</a> |
+                    <a data-ng-href="https://f5.com/about-us/policies/trademarks" target="_blank" data-link-type="footer" href="https://f5.com/about-us/policies/trademarks" class="internalLink">Trademarks</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+</footer>
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="../../_static/js/bootstrap.min.js"></script>
+  <script type="text/javascript">
+    jQuery.noConflict(true)
+  </script>
+  </body>
+</html>
