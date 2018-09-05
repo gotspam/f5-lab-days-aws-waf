@@ -14,7 +14,7 @@ Create Credentials Protection WAF Child Policy
       elongate lockout period.
 
 #. Open new incognito browser on jump server and open developer tools. (View->Developer-Developer Tools)
-#. Browse to ``https://hackazon.f5demo.com/user/login`` and login as ``bigmac``
+#. Browse to ``https://<Elastic IP>/user/login`` and login as ``bigmac``
 #. Once successfully logged in, review log on Developer Tool.  Highlight ``login?return_url=`` and on right panel scroll to bottom of Form Data to view **Username** and **Password**.
 
    .. image:: ../images/image340.png
@@ -114,5 +114,5 @@ Create Credentials Protection WAF Child Policy
 #. Enter code from captcha challenge then enter correct credentials to login in successfully.
 
 #. Open new incognito browser on jump server and open developer tools. (View->Developer-Developer Tools)
-#. Browse to ``https://hackazon.f5demo.com/user/login`` and login as ``bigmac``
+#. Browse to ``https://<Elastic IP>/user/login`` and login as ``bigmac``
 #. Once successfully logged in, review log on Developer Tool.  Highlight ``login?return_url=`` and on right panel scroll to bottom of Form Data to view encrypted **Username** and **Password**
