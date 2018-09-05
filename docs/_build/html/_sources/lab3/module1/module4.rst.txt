@@ -2,7 +2,7 @@ Create Credentials Protection WAF Child Policy
 ----------------------------------------------
 **Task 1 - Simulate credential attacks.**
 
-#. Open browser on jump server and go to ``https://hackazon.f5demo.com/user/login``
+#. Open browser on jump server and go to ``https://<Elastic IP>/user/login``
 #. Enter ``bigmac`` for **Username**
 #. Enter random password for **Password.**  Repeat 5 consecutive times using different password to simulate brute force attack
 
@@ -54,7 +54,7 @@ Create Credentials Protection WAF Child Policy
 
 #. Open the **Application Security->Anomaly Detection->Brute Force Attack Prevention** page and click **Create**.
 #. Select **Security->Application Security->Anomaly Detection->Brute Force Attack Prevention** then click **Create**
-#. Change **Login Page** drop down box to ``[HTTP]/user/login``
+#. Change **Login Page** drop down box to ``[HTTPS]/user/login``
 #. Click **Apply Policy** to commit changes
 
    .. image:: ../images/image343.png
@@ -108,7 +108,7 @@ Create Credentials Protection WAF Child Policy
 
 **Task 6 - Repeat simulated credential attacks**
 
-#. Open browser on jump server and go to ``https://hackazon.f5demo.com/user/login``
+#. Open browser on jump server and go to ``https://<Elastic IP>/user/login``
 #. Enter ``bigmac`` for **Username**
 #. Enter random password for **Password.**  Repeat multiple times using different password to simulate brute force attack.  You should receive a captcha challenge after 3 failed attempts.
 #. Enter code from captcha challenge then enter correct credentials to login in successfully.

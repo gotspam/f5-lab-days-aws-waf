@@ -243,7 +243,7 @@
 <h1>4.4. Create Credentials Protection WAF Child Policy<a class="headerlink" href="#create-credentials-protection-waf-child-policy" title="Permalink to this headline">¶</a></h1>
 <p><strong>Task 1 - Simulate credential attacks.</strong></p>
 <ol class="arabic">
-<li><p class="first">Open browser on jump server and go to <code class="docutils literal"><span class="pre">https://hackazon.f5demo.com/user/login</span></code></p>
+<li><p class="first">Open browser on jump server and go to <code class="docutils literal"><span class="pre">https://&lt;Elastic</span> <span class="pre">IP&gt;/user/login</span></code></p>
 </li>
 <li><p class="first">Enter <code class="docutils literal"><span class="pre">bigmac</span></code> for <strong>Username</strong></p>
 </li>
@@ -306,7 +306,7 @@ elongate lockout period.</p>
 </li>
 <li><p class="first">Select <strong>Security-&gt;Application Security-&gt;Anomaly Detection-&gt;Brute Force Attack Prevention</strong> then click <strong>Create</strong></p>
 </li>
-<li><p class="first">Change <strong>Login Page</strong> drop down box to <code class="docutils literal"><span class="pre">[HTTP]/user/login</span></code></p>
+<li><p class="first">Change <strong>Login Page</strong> drop down box to <code class="docutils literal"><span class="pre">[HTTPS]/user/login</span></code></p>
 </li>
 <li><p class="first">Click <strong>Apply Policy</strong> to commit changes</p>
 <a class="reference internal image-reference" href="../../_images/image343.png"><img alt="../../_images/image343.png" src="../../_images/image343.png" style="height: 50px;" /></a>
@@ -362,7 +362,7 @@ elongate lockout period.</p>
 </ol>
 <p><strong>Task 6 - Repeat simulated credential attacks</strong></p>
 <ol class="arabic simple">
-<li>Open browser on jump server and go to <code class="docutils literal"><span class="pre">https://hackazon.f5demo.com/user/login</span></code></li>
+<li>Open browser on jump server and go to <code class="docutils literal"><span class="pre">https://&lt;Elastic</span> <span class="pre">IP&gt;/user/login</span></code></li>
 <li>Enter <code class="docutils literal"><span class="pre">bigmac</span></code> for <strong>Username</strong></li>
 <li>Enter random password for <strong>Password.</strong>  Repeat multiple times using different password to simulate brute force attack.  You should receive a captcha challenge after 3 failed attempts.</li>
 <li>Enter code from captcha challenge then enter correct credentials to login in successfully.</li>

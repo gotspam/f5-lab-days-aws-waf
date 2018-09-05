@@ -2,7 +2,7 @@ Create Base WAF Child Policy
 ----------------------------
 **Task 1 - Simulate attacks to demonstrate common web app vulnerabilities.**
 
-#. Open browser on jump server and go to ``https://hackazon.f5demo.com``
+#. Open browser on jump server and go to ``https://<Elastic IP>``
 #. Enter ``%' or 1='1`` in Search field and press Enter
 
    .. NOTE::
@@ -71,7 +71,7 @@ Create Base WAF Child Policy
    .. image:: ../images/image313.png
      :height: 300px
 
-#. Open browser on jump server and go to ``https://hackazon.f5demo.com``
+#. Open browser on jump server and go to ``https://<Elastic IP>``
 #. Enter ``%' or 1='1`` in Search field and press Enter.  You should receive a block message similar to below. Take note of the Support ID number.
 
    .. image:: ../images/image314.png
